@@ -11,7 +11,7 @@ node {
     try {
       scmVars = checkout scm
       stage("Build") {
-        echo scmVars
+        echo scmVars.GIT_BRANCH
         sh 'mvn clean'
       }
       stage("Test") {
