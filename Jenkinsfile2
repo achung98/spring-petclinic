@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage("Tests") {
       steps {
-        echo Integer.toString(currentBuild.changeSets.size())
+        echo currentBuild.changeSets.size().toString()
       }
     }
   }
