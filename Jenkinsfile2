@@ -2,7 +2,6 @@ def latestSuccess = env.LATEST_SUCCESS
 def numOfCommits
 
 node {
-  agent any
   // If there is a latest success build
   if(latestSuccess != "NULL") {
     numOfCommits = countCommits() + env.NUM_OF_COMMITS
