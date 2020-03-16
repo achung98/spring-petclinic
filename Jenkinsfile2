@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage("Tst") {
       steps {
-        echo currentBuild.changeSets.size().toString()
+        echo currentBuild.changeSets[0].length.toString();
       }
     }
   }
