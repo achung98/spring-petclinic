@@ -8,30 +8,28 @@ pipeline {
     if(latestSuccess != "NULL") {
       numOfCommits = countCommits() + env.NUM_OF_COMMITS
     }
-  }
-  if(latestSuccess == "NULL" || numOfCommits <= 8) {
-    stages {
-      stage("Build") {
-        steps {
-          sh 'mvn clean'
+    if(latestSuccess == "NULL" || numOfCommits <= 8) {
+      stages {
+        stage("Build") {
+          steps {
+            sh 'mvn clean'
+          }
         }
-      }
-      stage("Test") {
-        steps {
-          sh 'mvn test'
+        stage("Test") {
+          steps {
+            sh 'mvn test'
+          }
         }
-      }
-      stage("Package") {
-        steps {
-          sh 'mvn package'
+        stage("Package") {
+          steps {
+            sh 'mvn package'
+          }
         }
-      }
-      stage("Deploy") {
-        steps {
-          slackSend channel: 'builds', message: "Build Sucessful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+        stage("Deploy") {
+          steps {
+            slackSend channel: 'builds', message: "Build Sucessful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+          }
         }
-      }
-      script {
         if(currentBuild.currentResult == "SUCCESS") {
           env.LATEST_SUCCESS = currentBuild.id
           env.NUM_OF_COMMITS = 0
