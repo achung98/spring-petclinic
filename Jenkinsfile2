@@ -7,9 +7,8 @@ node {
     numOfCommits = countCommits() + env.NUM_OF_COMMITS
   }
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
-    try {
       stage("Build") {
-        echo GIT_PREVIOUS_SUCCESSFUL_COMMIT
+        echo GIT_PREVIOUS_COMMIT
         sh 'mvn clean'
       }
       stage("Test") {
@@ -25,8 +24,6 @@ node {
         env.LATEST_SUCCESS = currentBuild.id
         env.NUM_OF_COMMITS = 0
       }
-    } catch(ex) {
-      execBisect()
     }
   }
 }
