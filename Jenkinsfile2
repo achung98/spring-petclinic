@@ -7,8 +7,9 @@ node {
     numOfCommits = countCommits() + env.NUM_OF_COMMITS
   }
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
+    try {
       stage("Build") {
-        echo GIT_PREVIOUS_COMMIT
+        sh "echo ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
         sh 'mvn clean'
       }
       stage("Test") {
@@ -24,9 +25,11 @@ node {
         env.LATEST_SUCCESS = currentBuild.id
         env.NUM_OF_COMMITS = 0
       }
+    } catch(ex) {
+      execBisect()
     }
   }
-
+}
 
 def countCommits() {
   def changeLogs = currentBuild.changeSets
