@@ -8,6 +8,7 @@ node {
   }
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
     try {
+      GIT_REVISION = sh( script: 'git rev-parse HEAD', returnStdout: true )
       stage("Build") {
         sh "echo ${env.BRANCH_NAME}"
         sh 'mvn clean'
