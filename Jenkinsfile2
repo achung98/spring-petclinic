@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage("Tests") {
       steps {
-        echo currentBuild.changeSets
+        echo currentBuild.changeSets.length
       }
     }
   }
