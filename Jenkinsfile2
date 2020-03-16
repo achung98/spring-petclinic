@@ -1,5 +1,6 @@
 def latestSuccess = env.LATEST_SUCCESS
 def numOfCommits
+def scmVars
 
 node {
   // If there is a latest success build
@@ -8,9 +9,9 @@ node {
   }
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
     try {
-      def scmVars = checkout(scm)
+      scmVars = checkout scm
       stage("Build") {
-        echo scmVars.BRANCH_NAME
+        echo scmVars
         sh 'mvn clean'
       }
       stage("Test") {
