@@ -21,7 +21,7 @@ pipeline {
                  branch 'master'
              }
             steps {
-                echo 'Deploying to master'
+                slackSend channel: 'builds', message: 'started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)'
             }
         }
     }
