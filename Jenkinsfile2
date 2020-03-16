@@ -7,21 +7,26 @@ node {
     numOfCommits = countCommits() + env.NUM_OF_COMMITS
   }
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
-    stage("Build") {
-      sh 'mvn clean'
-    }
-    stage("Test") {
-      sh 'mvn test'
-    }
-    stage("Package") {
-      sh 'mvn package'
-    }
-    stage("Deploy") {
-      slackSend channel: 'builds', message: "Build Sucessful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-    }
-    if(currentBuild.currentResult == "SUCCESS") {
-      env.LATEST_SUCCESS = currentBuild.id
-      env.NUM_OF_COMMITS = 0
+    try {
+      stage("Build") {
+        echo env.GIT_PREVIOUS_COMMIT
+        sh 'mvn clean'
+      }
+      stage("Test") {
+        sh 'mvn test'
+      }
+      stage("Package") {
+        sh 'mvn package'
+      }
+      stage("Deploy") {
+        slackSend channel: 'builds', message: "Build Sucessful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+      }
+      if(currentBuild.currentResult == "SUCCESS") {
+        env.LATEST_SUCCESS = currentBuild.id
+        env.NUM_OF_COMMITS = 0
+      }
+    } catch(ex) {
+      execBisect()
     }
   }
 }
@@ -37,4 +42,13 @@ def countCommits() {
     }
   }
   return commits
+}
+
+def execBisect() {
+  def previousCommit = env.GIT_PREVIOUS_COMMIT //Get last commint of the new commits # >= 8
+  def previousSuccessfulCommit = env.GIT_PREVIOUS_SUCCESSFUL_COMMIT // Get last commit that was successful
+
+  sh "git bisect start ${previousCommit} ${previousSuccessfulCommit}"
+  sh "git bisect run mvn clean test"
+  sh "git bisect reset"
 }
