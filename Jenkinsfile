@@ -21,7 +21,7 @@ pipeline {
                  branch 'master'
              }
             steps {
-                echo 'Pushing to master'
+                echo 'Deploying to master'
             }
         }
     }
