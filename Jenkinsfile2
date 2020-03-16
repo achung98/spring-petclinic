@@ -1,6 +1,6 @@
 def previousBuild = env.LATEST_SUCCESS
 
-node {
+pipeline {
     agent any
     stages {
 
