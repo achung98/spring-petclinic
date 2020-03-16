@@ -21,6 +21,7 @@ pipeline {
                  branch 'master'
              }
             steps {
+                sh './mvnw deploy'
                 slackSend channel: 'builds', message: "Build Sucessful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
             }
         }
