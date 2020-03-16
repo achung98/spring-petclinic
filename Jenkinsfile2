@@ -3,7 +3,7 @@ def latestSuccess = env.LATEST_SUCCESS
 pipeline {
   agent any
   stages {
-    stage("Tst") {
+    stage("Test") {
       steps {
         echo currentBuild.changeSets[0].length.toString();
       }
