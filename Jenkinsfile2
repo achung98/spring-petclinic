@@ -1,4 +1,3 @@
-def previousBuild = env.LATEST_SUCCESS
 
 pipeline {
     agent any
