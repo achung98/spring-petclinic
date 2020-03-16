@@ -3,10 +3,10 @@ def previousBuild = env.LATEST_SUCCESS
 node {
     agent any
     stages {
-        if(previousBuild == "NULL") {
+
             stage("Test") {
                 echo "test"
-            }
+            
         }
     }
 }
