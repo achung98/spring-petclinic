@@ -9,7 +9,7 @@ node {
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
     try {
       stage("Build") {
-        echo env.GIT_PREVIOUS_COMMIT
+        echo env.GIT_PREVIOUS_SUCCESSFUL_COMMIT
         sh 'mvn clean'
       }
       stage("Test") {
