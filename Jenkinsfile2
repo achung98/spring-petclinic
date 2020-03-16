@@ -1,10 +1,11 @@
+def previousBuild = env.LATEST_SUCCESS
 
-pipeline {
+node {
     agent any
     stages {
-        stage('Build') {
-            steps {
-                echo 'Hello'
+        if(previousBuild == "NULL") {
+            stage("Test") {
+                echo "test"
             }
         }
     }
