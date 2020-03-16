@@ -10,7 +10,7 @@ node {
     try {
       def scmVars = checkout scm
       stage("Build") {
-        sh "echo ${scmVars.BRANCH_NAME}"
+        echo scmVars.BRANCH_NAME
         sh 'mvn clean'
       }
       stage("Test") {
