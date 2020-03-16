@@ -3,9 +3,9 @@ def latestSuccess = env.LATEST_SUCCESS
 pipeline {
   agent any
   stages {
-    stage("Test") {
+    stage("Tests") {
       steps {
-        echo currentBuild.changeSets[0].length.toString();
+        echo countCommits().toString()
       }
     }
   }
@@ -15,4 +15,17 @@ def checkLatestSuccess(latestSuccess) {
     if(latestSuccess != NULL) {
 
     }
+}
+
+def countCommits() {
+  def changeLogs = currentBuild.changeSets
+  def commits = 0
+  for(int i = 0; i < changeLogs.size(); i++) {
+    def entries = changeLogs[i].items
+    //Count the commits
+    for(int j = 0; j < entries.length; j++) {
+      commits++
+    }
+  }
+  return commits
 }
