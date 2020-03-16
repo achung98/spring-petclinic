@@ -8,7 +8,7 @@ node {
   }
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
     try {
-      def scmVars = checkout scm
+      def scmVars = checkout(scm)
       stage("Build") {
         echo scmVars.BRANCH_NAME
         sh 'mvn clean'
