@@ -4,10 +4,6 @@ def numOfCommits
 pipeline {
   agent any
   stages {
-  // If there is a latest success build
-    if(latestSuccess != "NULL") {
-      numOfCommits = countCommits() + env.NUM_OF_COMMITS
-    }
     if(latestSuccess == "NULL" || numOfCommits <= 8) {
       stage("Build") {
         steps {
