@@ -1,11 +1,12 @@
+def latestSuccess = env.LATEST_SUCCESS
 
 pipeline {
     agent any
     stages {
-
             stage("Test") {
+            steps {
                 echo "test"
-            
+                }
         }
     }
 }
