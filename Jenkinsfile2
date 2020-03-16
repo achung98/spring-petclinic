@@ -10,9 +10,7 @@ node {
   if(latestSuccess == "NULL" || numOfCommits <= 8) {
     try {
       scmVars = checkout scm
-      echo GIT_PREVIOUS_COMMIT
       stage("Build") {
-        echo scmVars.GIT_BRANCH
         sh 'mvn clean'
       }
       stage("Test") {
@@ -51,6 +49,7 @@ def execBisect(scmVars) {
   def previousCommit = scmVars.GIT_PREVIOUS_COMMIT //Get last commint of the new commits # >= 8
   def previousSuccessfulCommit = scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT // Get last commit that was successful
 
-  echo previousCommit
-  echo previousSuccessfulCommit
+  sh "git bisect start ${previousCommit} ${previousSuccessfulCommit}"
+  sh "git bisect run mvn clean test"
+  sh "git bisect reset"
 }
