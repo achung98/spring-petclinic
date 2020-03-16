@@ -26,7 +26,7 @@ node {
       }
     }
   }
-}
+
 
 def countCommits() {
   def changeLogs = currentBuild.changeSets
